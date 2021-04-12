@@ -19,7 +19,7 @@ double polarX(Polar polar) { return polar.radius * cos(polar.beta) * sin(polar.a
 double polarY(Polar polar) { return polar.radius * sin(polar.beta); }
 double polarZ(Polar polar) { return polar.radius * cos(polar.beta) * cos(polar.alpha); }
 
-// --------------------- COLORS AUX STRUCTS/FUCNTIONS
+// --------------------- COLORS AUX STRUCTS/FUNCTIONS
 
 typedef struct {
     double r;       // a fraction between 0 and 1
@@ -131,12 +131,14 @@ void drawCylinder(double radius, double height, int slices) {
 	Polar baseP = { hh, 0, - M_PI / 2 };
 	Polar topP = { hh, 0, M_PI / 2 };
 
+	glColor3ub(255, 255, 255);
+
 	// BASE
 	glBegin(GL_TRIANGLE_FAN);
 	glVertex3d(polarX(baseP), polarY(baseP), polarZ(baseP));
 	for(int slice = slices; slice >= 0; slice--) {
 		Polar p = { sqrt(pow(hh, 2) + pow(radius,2)) , sliceStep * slice ,  - atan(hh / radius)};
-		hsv temp = {360 / slices * slice, 1, 1};
+		hsv temp = {360.0 / slices * slice, 1, 1};
 		rgb c = hsv2rgb(temp);
 		glColor3d(c.r, c.g, c.b);
 		glVertex3d(polarX(p), polarY(p), polarZ(p));
@@ -150,7 +152,7 @@ void drawCylinder(double radius, double height, int slices) {
 	glVertex3d(polarX(topP), polarY(topP), polarZ(topP));
 	for(int slice = 0; slice <= slices; slice++) {
 		Polar p = { sqrt(pow(hh, 2) + pow(radius,2)) , sliceStep * slice ,  atan(hh / radius)};
-		hsv temp = {360 / slices * slice, 1, 1};
+		hsv temp = {360.0 / slices * slice, 1, 1};
 		rgb c = hsv2rgb(temp);
 		glColor3d(c.r, c.g, c.b);
 		glVertex3d(polarX(p), polarY(p), polarZ(p));
@@ -162,7 +164,7 @@ void drawCylinder(double radius, double height, int slices) {
 	for(int slice = 0; slice <= slices; slice++) {
 		Polar pb = { sqrt(pow(hh, 2) + pow(radius,2)) , sliceStep * slice ,  - atan(hh / radius)};
 		Polar pt = { sqrt(pow(hh, 2) + pow(radius,2)) , sliceStep * slice ,  atan(hh / radius)};
-		hsv temp = {360 / slices * slice, 1, 1};
+		hsv temp = {360.0 / slices * slice, 1, 1};
 		rgb c = hsv2rgb(temp);
 		glColor3d(c.r, c.g, c.b);
 		glVertex3d(polarX(pt), polarY(pt), polarZ(pt));
@@ -180,14 +182,14 @@ void renderScene(void) {
 	glLoadIdentity();
 	gluLookAt(polarX(camPos), polarY(camPos), polarZ(camPos), 
 		      0.0,0.0,0.0,
-			  0.0f,1.0f,0.0f);
+			  0.0f,camPos.beta > M_PI_2 ? -1.0f : 1.0f,0.0f);
 
 // put the geometric transformations here
 
 
 // put drawing instructions here
 
-	drawCylinder(1, 2, 20);
+	drawCylinder(1, 2, 100);
 
 	// End of frame
 	glutSwapBuffers();
@@ -215,8 +217,8 @@ void keyboardFunc(unsigned char key, int x, int y) {
 	}
 	if (camPos.alpha < 0) camPos.alpha += M_PI * 2;
 	else if (camPos.alpha > M_PI * 2) camPos.alpha -= M_PI * 2;
-	if (camPos.beta < - M_PI) camPos.beta += M_PI * 2;
-	else if (camPos.beta > M_PI) camPos.beta -= M_PI * 2;
+	if (camPos.beta < - M_PI_2) camPos.beta += M_PI * 2;
+	else if (camPos.beta > (3 * M_PI_2)) camPos.beta -= M_PI * 2;
 	glutPostRedisplay();
 }
 

@@ -97,7 +97,7 @@ void renderScene(void) {
 	}
 
 	glColor3ub(255,0,255);
-	glutSolidTorus(1,2,10,10);
+	glutSolidTorus(1,3,10,10);
 
 	for(int i = 0; i < 300; i++) {
 		glPushMatrix();
