@@ -16,10 +16,10 @@ int startX, startY, tracking = 0;
 
 int alpha = 0, beta = 0, r = 5;
 
-#define POINT_COUNT 8
+#define POINT_COUNT 5
 // Points that make up the loop for catmull-rom interpolation
-//float p[POINT_COUNT][3] = {{-1,-1,0},{-1,1,0},{1,1,0},{0,0,0},{1,-1,0}};
-float p[POINT_COUNT][3] = {{1,0,0},{sqrt(0.5),0,sqrt(0.5)},{0,0,1},{-sqrt(0.5),0,sqrt(0.5)},{-1,0,0},{-sqrt(0.5),0,-sqrt(0.5)},{0,0,-1},{sqrt(0.5),0,-sqrt(0.5)}};
+float p[POINT_COUNT][3] = {{-1,-1,0},{-1,1,0},{1,1,0},{0,0,0},{1,-1,0}};
+//float p[POINT_COUNT][3] = {{1,0,0},{sqrt(0.5),0,sqrt(0.5)},{0,0,1},{-sqrt(0.5),0,sqrt(0.5)},{-1,0,0},{-sqrt(0.5),0,-sqrt(0.5)},{0,0,-1},{sqrt(0.5),0,-sqrt(0.5)}};
 
 
 void buildRotMatrix(float *x, float *y, float *z, float *m) {
